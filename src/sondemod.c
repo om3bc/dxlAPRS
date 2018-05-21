@@ -1508,11 +1508,11 @@ static void decodeframe(uint8_t m, uint32_t ip, uint32_t fromport)
       }
    }
    loop_exit:;
-   if (((((contextr9.posok /*&& calok*/) && almread+60UL>systime)
-                && (((sendquick==2UL || sondeaprs_nofilter)
-                || contextr9.calibok==0xFFFFFFFFUL)
-                || (contextr9.calibok&0x1UL)!=0UL && sendquick==1UL))
-                && contextr9.lat!=0.0) && contextr9.long0!=0.0) {
+//   if (((((contextr9.posok /*&& calok*/) && almread+60UL>systime)
+//                && (((sendquick==2UL || sondeaprs_nofilter)
+//                || contextr9.calibok==0xFFFFFFFFUL)
+//                || (contextr9.calibok&0x1UL)!=0UL && sendquick==1UL))
+//                && contextr9.lat!=0.0) && contextr9.long0!=0.0) {
       { /* with */
          struct CONTEXTR9 * anonym1 = &contextr9;
          if (!anonym1->mesok || anonym1->calibok!=0xFFFFFFFFUL) {
@@ -1532,7 +1532,7 @@ static void decodeframe(uint8_t m, uint32_t ip, uint32_t fromport)
          anonym1->framesent = 1;
       }
       crdone = 1;
-   }
+//   }
    if (sondeaprs_verb) {
       if (!crdone) osi_WrStrLn("", 1ul);
       osi_WrStrLn("------------", 13ul);
