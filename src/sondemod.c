@@ -2267,7 +2267,7 @@ static void decodedfm6(const char rxb[], uint32_t rxb_len,
    char latok;
    char lonok;
    struct CONTEXTDFM6 * anonym;
-   if (rxb[0UL]!='D' || rxb[1UL]!='F') return;
+   if (rxb[0UL]!='D') return;
    /* no dfm06 frame */
    i = 0UL;
    do {

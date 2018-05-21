@@ -2464,8 +2464,9 @@ static void getdfname(const char b[], uint32_t b_len, uint32_t m,
       }
       if (dfidok(m)) {
          v = chan[m].dfm6.idnew;
-         if (chan[m].dfm6.d9) strncpy(s,"DF9",101u);
-         else strncpy(s,"DF6",101u);
+         s[0U] = 'D';
+         s[1U] = hex(v/16777216UL);
+         s[2U] = hex(v/1048576UL);
          s[3U] = hex(v/65536UL);
          s[4U] = hex(v/4096UL);
          s[5U] = hex(v/256UL);
@@ -3316,7 +3317,6 @@ static void decodeframe10(uint32_t m)
    double alt;
    double lon;
    double lat;
-   uint32_t id;
    char ids[201];
    char s[201];
    struct M10 * anonym;
@@ -3328,24 +3328,15 @@ static void decodeframe10(uint32_t m)
       if (cs==m10card(anonym->rxbuf, 101ul, 99L, 2L)) {
          /* crc ok */
          /* get ID    */
-         id = (uint32_t)(((uint32_t)((uint32_t)(uint8_t)
-                anonym->rxbuf[97U]+256UL*(uint32_t)(uint8_t)
-                anonym->rxbuf[96U]+65536UL*(uint32_t)(uint8_t)
-                anonym->rxbuf[95U])^(uint32_t)((uint32_t)(uint8_t)
-                anonym->rxbuf[93U]/16UL+16UL*(uint32_t)(uint8_t)
-                anonym->rxbuf[94U]+4096UL*(uint32_t)(uint8_t)
-                anonym->rxbuf[95U]))&0xFFFFFUL);
-         i = 8UL;
-         ids[8U] = 0;
-         --i;
-         do {
-            ids[i] = (char)(id%10UL+48UL);
-            id = id/10UL;
-            --i;
-         } while (i!=1UL);
-         ids[i] = 'E';
-         --i;
-         ids[i] = 'M';
+         ids[0] = 'M';
+         ids[1] = hex((anonym->rxbuf[97]>>4)&0xF);
+         ids[2] = hex(anonym->rxbuf[97]&0xF);
+         ids[3] = hex((anonym->rxbuf[96]>>4)&0xF);
+         ids[4] = hex(anonym->rxbuf[96]&0xF);
+         ids[5] = hex((anonym->rxbuf[95]>>4)&0xF);
+         ids[6] = hex(anonym->rxbuf[95]&0xF);
+         ids[7] = hex(anonym->rxbuf[93]&0xF);
+         ids[8] = 0;
          /* get ID */
          if (anonym->alternativ) {
             if (verb) {
