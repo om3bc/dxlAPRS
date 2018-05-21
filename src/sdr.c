@@ -1004,7 +1004,7 @@ extern char sdr_startsdr(char ip[], uint32_t ip_len,
    aprsstr_Assign(port, 11ul, tport, tport_len);
    reconnect = reconn;
    if (inhz>0UL) rtlhz = inhz;
-   if (rtlhz!=1024000UL && (rtlhz<2048000UL || rtlhz>2500000UL)) return 0;
+   if (rtlhz!=1024000UL && (rtlhz<2048000UL || rtlhz>3200000UL)) return 0;
    if (outhz>0UL) audiohz = outhz;
    reduce = (1024UL*rtlhz+audiohz/2UL)/audiohz; /* sample reduction * 1024 */
    sampsize = reduce/1024UL; /* input samples per output sample, trunc */
@@ -1033,7 +1033,7 @@ extern void sdr_BEGIN(void)
    osi_BEGIN();
    fd = -1L;
    reconnect = 0;
-   rtlhz = 2048000UL;
+   rtlhz = 3200000UL;
    audiohz = 16000UL;
 }
 

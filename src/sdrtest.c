@@ -336,7 +336,7 @@ static void Parms(void)
             /* sampelrate */
             osi_NextArg(s, 1001ul);
             if (!aprsstr_StrToCard(s, 1001ul,
-                &tuneoffset) || tuneoffset>25000000UL) {
+                &tuneoffset) || tuneoffset>32000000UL) {
                Error(" -O <Hz>", 9ul);
             }
          }
@@ -344,7 +344,7 @@ static void Parms(void)
             /* iq sampelrate */
             osi_NextArg(s, 1001ul);
             if (!aprsstr_StrToCard(s, 1001ul,
-                &iqrate) || iqrate!=1024000UL && (iqrate<2048000UL || iqrate>2500000UL)
+                &iqrate) || iqrate!=1024000UL && (iqrate<2048000UL || iqrate>3200000UL)
                 ) Error(" -i <Hz> 2048000 or 1024000", 28ul);
          }
          else if (s[1U]=='v') verb = 1;
