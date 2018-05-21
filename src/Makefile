@@ -307,4 +307,6 @@ radiorange: $(OBJ_RADIORANGE) $(OBJ_COMMON)
 diag:
 	echo $(HOSTARCH)
 
+sonde: sdrtst sondeudp sondemod
+
 # end of makefile
