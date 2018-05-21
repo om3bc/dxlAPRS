@@ -2380,7 +2380,7 @@ static void decodedfm6(const char rxb[], uint32_t rxb_len,
                sondeaprs_senddata(exlat, exlon, anonym->alt, anonym->speed,
                 anonym->dir, anonym->clmb, 0.0, 0.0,
                 (double)X2C_max_real, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                0.0, anonym->actrt%86400UL, 0UL, anonym->name, 9ul, 0UL, 0UL,
+                0.0, anonym->actrt%86400UL, rt, anonym->name, 9ul, 0UL, 0UL,
                  usercall, 11ul, 0UL, 0UL, sondeaprs_nofilter, "DFM06", 6ul);
                anonym->lastsent = systime;
             }
@@ -3080,7 +3080,7 @@ static void decodem10(const char rxb[], uint32_t rxb_len,
    if ((((pc && nameok) && calok) && lat!=0.0) && lon!=0.0) {
       sondeaprs_senddata(lat*1.7453292519943E-2, lon*1.7453292519943E-2, alt,
                  v, dir, vv, 0.0, 0.0, (double)X2C_max_real, 0.0, 0.0,
-                0.0, 0.0, 0.0, 0.0, 0.0, pc->gpssecond, 0UL, pc->name, 9ul,
+                0.0, 0.0, 0.0, 0.0, 0.0, pc->gpssecond, frameno, pc->name, 9ul,
                 0UL, 0UL, usercall, 11ul, 0UL, 0UL, sondeaprs_nofilter,
                 "M10", 4ul);
       pc->framesent = 1;
