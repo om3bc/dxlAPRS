@@ -23,6 +23,7 @@
 #ifndef udp_H_
 #include "udp.h"
 #endif
+#include <stdio.h>
 
 char sondeaprs_via[100];
 char sondeaprs_destcall[100];
@@ -1023,6 +1024,33 @@ END highresstr;
 */
 
 extern void sondeaprs_senddata(double lat, double long0,
+                double alt, double speed, double dir,
+                double clb, double hp, double hyg,
+                double temp, double ozon, double otemp,
+                double pumpmA, double pumpv, double mhz,
+                double hrms, double vrms, uint32_t sattime,
+                uint32_t uptime, char objname[],
+                uint32_t objname_len, uint32_t almanachage,
+                uint32_t goodsats, char usercall[],
+                uint32_t usercall_len, uint32_t calperc,
+                uint32_t burstKill, char force, char typstr[],
+                uint32_t typstr_len)
+{
+	char s[201];
+
+	lat /= sondeaprs_RAD;
+	long0 /= sondeaprs_RAD;
+	speed *= 3.6;
+
+	//printf("type: %s\tframe: %u\thw: %s\ttime: %u\tlat: %f\tlon: %f\talt: %f\tspeed: %f\tdir: %f\tvspeed: %f\n", typstr, uptime, objname, sattime, lat, long0, alt, speed, dir, clb);
+	sprintf(s, "%s,%u,%s,%04d-%02d-%02d,%02d:%02d:%02d,%.5f,%.5f,%.2f,%.1f,%.1f,%.1f,%.3f,OK",
+		typstr, uptime, objname, 0, 0, 0, sattime / 3600, (sattime % 3600) / 60, (sattime % 3600) % 60, lat, long0, alt, speed, dir, clb, mhz);
+	printf("%s\n", s);
+
+	sendudp(s, 201, strlen(s) + 1);
+}
+
+extern void sondeaprs_senddata2(double lat, double long0,
                 double alt, double speed, double dir,
                 double clb, double hp, double hyg,
                 double temp, double ozon, double otemp,
