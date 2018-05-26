@@ -1276,13 +1276,13 @@ static void decodeframe92(uint32_t m)
    corr = reedsolomon92(chan[m].r92.rxbuf, 256ul);
    { /* with */
       struct CHAN * anonym = &chan[m];
-      if (anonym->mycallc>0UL) {
-         chan[m].r92.rxbuf[0U] = (char)(anonym->mycallc/16777216UL);
-         chan[m].r92.rxbuf[1U] = (char)(anonym->mycallc/65536UL&255UL);
-         chan[m].r92.rxbuf[2U] = (char)(anonym->mycallc/256UL&255UL);
-         chan[m].r92.rxbuf[3U] = (char)(anonym->mycallc&255UL);
-         chan[m].r92.rxbuf[4U] = anonym->myssid;
-      }
+      //if (anonym->mycallc>0UL) {
+      //   chan[m].r92.rxbuf[0U] = (char)(anonym->mycallc/16777216UL);
+      //   chan[m].r92.rxbuf[1U] = (char)(anonym->mycallc/65536UL&255UL);
+      //   chan[m].r92.rxbuf[2U] = (char)(anonym->mycallc/256UL&255UL);
+      //   chan[m].r92.rxbuf[3U] = (char)(anonym->mycallc&255UL);
+      //   chan[m].r92.rxbuf[4U] = anonym->myssid;
+      //}
       alludp(anonym->udptx, 240UL, chan[m].r92.rxbuf, 256ul);
    }
    if (verb) {
@@ -1352,15 +1352,15 @@ static void sendrs41(uint32_t m)
    struct CHAN * anonym;
    { /* with */
       struct CHAN * anonym = &chan[m];
-      if (anonym->mycallc>0UL) {
-         chan[m].r41.rxbuf[0U] = (char)(anonym->mycallc/16777216UL);
-         chan[m].r41.rxbuf[1U] = (char)(anonym->mycallc/65536UL&255UL);
-         chan[m].r41.rxbuf[2U] = (char)(anonym->mycallc/256UL&255UL);
-         chan[m].r41.rxbuf[3U] = (char)(anonym->mycallc&255UL);
-         chan[m].r41.rxbuf[4U] = anonym->myssid;
-         chan[m].r41.rxbuf[5U] = 0;
-         chan[m].r41.rxbuf[6U] = 0;
-      }
+      //if (anonym->mycallc>0UL) {
+      //   chan[m].r41.rxbuf[0U] = (char)(anonym->mycallc/16777216UL);
+      //   chan[m].r41.rxbuf[1U] = (char)(anonym->mycallc/65536UL&255UL);
+      //   chan[m].r41.rxbuf[2U] = (char)(anonym->mycallc/256UL&255UL);
+      //   chan[m].r41.rxbuf[3U] = (char)(anonym->mycallc&255UL);
+      //   chan[m].r41.rxbuf[4U] = anonym->myssid;
+      //   chan[m].r41.rxbuf[5U] = 0;
+      //   chan[m].r41.rxbuf[6U] = 0;
+      //}
       alludp(anonym->udptx, 520UL, chan[m].r41.rxbuf, 520ul);
    }
 } /* end sendrs41() */
@@ -2543,15 +2543,15 @@ static void decodeframe6(uint32_t m)
                 /* sonde id or zero string for no tx */
                } /* end for */
             }
-            { /* with */
-               struct CHAN * anonym1 = &chan[m];
-               s[10U] = (char)(anonym1->mycallc/16777216UL);
-               s[11U] = (char)(anonym1->mycallc/65536UL&255UL);
-               s[12U] = (char)(anonym1->mycallc/256UL&255UL);
-               s[13U] = (char)(anonym1->mycallc&255UL);
-               if (anonym1->mycallc>0UL) s[14U] = anonym1->myssid;
-               else s[14U] = '\020';
-            }
+            //{ /* with */
+            //   struct CHAN * anonym1 = &chan[m];
+            //   s[10U] = (char)(anonym1->mycallc/16777216UL);
+            //   s[11U] = (char)(anonym1->mycallc/65536UL&255UL);
+            //   s[12U] = (char)(anonym1->mycallc/256UL&255UL);
+            //   s[13U] = (char)(anonym1->mycallc&255UL);
+            //   if (anonym1->mycallc>0UL) s[14U] = anonym1->myssid;
+            //   else s[14U] = '\020';
+            //}
             rt = osic_time()+chan[m].dfm6.timediff;
                 /* interpolated sonde realtime */
             s[15U] = (char)(rt/16777216UL);
@@ -3063,15 +3063,15 @@ static void demodframe34(uint32_t channel)
                } /* end for */
             }
             s[9U] = 0;
-            { /* with */
-               struct CHAN * anonym0 = &chan[channel];
-               s[10U] = (char)(anonym0->mycallc/16777216UL);
-               s[11U] = (char)(anonym0->mycallc/65536UL&255UL);
-               s[12U] = (char)(anonym0->mycallc/256UL&255UL);
-               s[13U] = (char)(anonym0->mycallc&255UL);
-               if (anonym0->mycallc>0UL) s[14U] = anonym0->myssid;
-               else s[14U] = '\020';
-            }
+            //{ /* with */
+            //   struct CHAN * anonym0 = &chan[channel];
+            //   s[10U] = (char)(anonym0->mycallc/16777216UL);
+            //   s[11U] = (char)(anonym0->mycallc/65536UL&255UL);
+            //   s[12U] = (char)(anonym0->mycallc/256UL&255UL);
+            //   s[13U] = (char)(anonym0->mycallc&255UL);
+            //   if (anonym0->mycallc>0UL) s[14U] = anonym0->myssid;
+            //   else s[14U] = '\020';
+            //}
             for (i = 0UL; i<=6UL; i++) {
                s[i+15UL] = anonym->rxbuf[i+2UL]; /* payload */
             } /* end for */
@@ -3401,17 +3401,17 @@ static void decodeframe10(uint32_t m)
             for (i = 0UL; i<=8UL; i++) {
                s[i+7UL] = ids[i];
             } /* end for */
-            { /* with */
-               struct CHAN * anonym0 = &chan[m];
-               s[0U] = (char)(anonym0->mycallc/16777216UL);
-               s[1U] = (char)(anonym0->mycallc/65536UL&255UL);
-               s[2U] = (char)(anonym0->mycallc/256UL&255UL);
-               s[3U] = (char)(anonym0->mycallc&255UL);
-               if (anonym0->mycallc>0UL) s[4U] = anonym0->myssid;
-               else s[4U] = '\020';
-               s[5U] = 0;
-               s[6U] = 0;
-            }
+            //{ /* with */
+            //   struct CHAN * anonym0 = &chan[m];
+            //   s[0U] = (char)(anonym0->mycallc/16777216UL);
+            //   s[1U] = (char)(anonym0->mycallc/65536UL&255UL);
+            //   s[2U] = (char)(anonym0->mycallc/256UL&255UL);
+            //   s[3U] = (char)(anonym0->mycallc&255UL);
+            //   if (anonym0->mycallc>0UL) s[4U] = anonym0->myssid;
+            //   else s[4U] = '\020';
+            //   s[5U] = 0;
+            //   s[6U] = 0;
+            //}
             for (i = 0UL; i<=100UL; i++) {
                s[i+16UL] = anonym->rxbuf[i]; /* payload */
             } /* end for */
