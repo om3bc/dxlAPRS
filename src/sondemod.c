@@ -1264,6 +1264,7 @@ static void decodeframe(uint8_t m, uint32_t ip, uint32_t fromport)
    char b[256];
    char crdone;
    char calok;
+   char channel;
    CALLSSID usercall;
    struct CONTEXTR9 * anonym;
    struct CONTEXTR9 * anonym0;
@@ -1300,6 +1301,7 @@ static void decodeframe(uint8_t m, uint32_t ip, uint32_t fromport)
    } /* end for */
    calok = 0;
    //getcall(b, 256ul, usercall, 11ul);
+   channel = b[0U];
    usercall[0U]=0;
    if (usercall[0U]==0) aprsstr_Assign(usercall, 11ul, mycall, 100ul);
    if (sondeaprs_verb && fromport>0UL) {
@@ -1529,7 +1531,7 @@ static void decodeframe(uint8_t m, uint32_t ip, uint32_t fromport)
                 (anonym1->timems/1000UL+86382UL)%86400UL, frameno, objname,
                 9ul, almanachage, anonym1->goodsats, usercall, 11ul,
                 calperc(anonym1->calibok), 0UL, sondeaprs_nofilter, "RS92",
-                5ul);
+                5ul, channel);
          anonym1->framesent = 1;
       }
       crdone = 1;
@@ -1639,6 +1641,7 @@ static void decodec34(const char rxb[], uint32_t rxb_len,
    char latok;
    char lonok;
    char posok;
+   char channel;
    struct CONTEXTC34 * anonym;
    struct CONTEXTC34 * anonym0;
    struct CONTEXTC34 * anonym1;
@@ -1661,6 +1664,7 @@ static void decodec34(const char rxb[], uint32_t rxb_len,
    //   ++j;
    //} while (j<=4UL);
    //getcall(cb, 10ul, usercall, 11ul);
+   channel = rxb[i];
    i += 5;
    usercall[0U]=0;
    if (usercall[0U]==0) aprsstr_Assign(usercall, 11ul, mycall, 100ul);
@@ -2032,7 +2036,7 @@ static void decodec34(const char rxb[], uint32_t rxb_len,
                 0.0, 0.0, 0.0, 0.0,
                 ((systime-anonym2->tgpstime)+anonym2->gpstime)%86400UL, 0UL,
                 anonym2->name, 9ul, 0UL, 0UL, usercall, 11ul, 0UL, 0UL,
-                sondeaprs_nofilter, tstr, 51ul);
+                sondeaprs_nofilter, tstr, 51ul, channel);
             anonym2->lastsent = systime;
          }
       }
@@ -2269,6 +2273,7 @@ static void decodedfm6(const char rxb[], uint32_t rxb_len,
    double exlon;
    char latok;
    char lonok;
+   char channel;
    struct CONTEXTDFM6 * anonym;
    if (rxb[0UL]!='D') return;
    /* no dfm06 frame */
@@ -2287,6 +2292,7 @@ static void decodedfm6(const char rxb[], uint32_t rxb_len,
    //   ++j;
    //} while (j<=4UL);
    //getcall(cb, 10ul, usercall, 11ul);
+   channel = rxb[i];
    i += 5;
    usercall[0U]=0;
    if (usercall[0U]==0) aprsstr_Assign(usercall, 11ul, mycall, 100ul);
@@ -2386,7 +2392,7 @@ static void decodedfm6(const char rxb[], uint32_t rxb_len,
                 anonym->dir, anonym->clmb, 0.0, 0.0,
                 (double)X2C_max_real, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
                 0.0, anonym->actrt%86400UL, rt, anonym->name, 9ul, 0UL, 0UL,
-                 usercall, 11ul, 0UL, 0UL, sondeaprs_nofilter, "DFM06", 6ul);
+                 usercall, 11ul, 0UL, 0UL, sondeaprs_nofilter, "DFM06", 6ul, channel);
                anonym->lastsent = systime;
             }
          }
@@ -2630,6 +2636,7 @@ static void decoders41(const char rxb[], uint32_t rxb_len,
    char calok;
    uint16_t crc;
    char typ;
+   char channel;
    pCONTEXTR4 pc0;
    pCONTEXTR4 pc1;
    pCONTEXTR4 pc;
@@ -2649,6 +2656,7 @@ static void decoders41(const char rxb[], uint32_t rxb_len,
    long0 = 0.0;
    ozonval = 0.0;
    //getcall(rxb, rxb_len, usercall, 11ul);
+   channel = rxb[0U];
    usercall[0U]=0;
    if (usercall[0U]==0) aprsstr_Assign(usercall, 11ul, mycall, 100ul);
    if (sondeaprs_verb && fromport>0UL) {
@@ -2882,7 +2890,7 @@ static void decoders41(const char rxb[], uint32_t rxb_len,
                 pc->ozonPumpMA, pc->ozonBatVolt, (double)pc->mhz0, 0.0,
                  0.0, pc->gpssecond, frameno, pc->name, 9ul, 0UL, 0UL,
                 usercall, 11ul, 0UL, pc->burstKill, sondeaprs_nofilter, "RS41\
-", 5ul);
+", 5ul, channel);
       pc->framesent = 1;
    }
 /*  IF verb THEN WrStrLn("") END;   */
@@ -2966,6 +2974,7 @@ static void decodem10(const char rxb[], uint32_t rxb_len,
    uint32_t frameno;
    char nameok;
    char calok;
+   char channel;
    pCONTEXTM10 pc0;
    pCONTEXTM10 pc1;
    pCONTEXTM10 pc;
@@ -2975,6 +2984,7 @@ static void decodem10(const char rxb[], uint32_t rxb_len,
    lat = 0.0;
    lon = 0.0;
    //getcall(rxb, rxb_len, usercall, 11ul);
+   channel = rxb[0U];
    usercall[0U]=0;
    if (usercall[0U]==0) aprsstr_Assign(usercall, 11ul, mycall, 100ul);
    if (sondeaprs_verb && fromport>0UL) {
@@ -3089,7 +3099,7 @@ static void decodem10(const char rxb[], uint32_t rxb_len,
                  v, dir, vv, 0.0, 0.0, (double)X2C_max_real, 0.0, 0.0,
                 0.0, 0.0, 0.0, 0.0, 0.0, pc->gpssecond, frameno, pc->name, 9ul,
                 0UL, 0UL, usercall, 11ul, 0UL, 0UL, sondeaprs_nofilter,
-                "M10", 4ul);
+                "M10", 4ul, channel);
       pc->framesent = 1;
    }
 } /* end decodem10() */

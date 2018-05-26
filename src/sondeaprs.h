@@ -24,7 +24,7 @@ extern void sondeaprs_senddata(double, double, double,
                 double, uint32_t, uint32_t, char [],
                 uint32_t, uint32_t, uint32_t, char [], uint32_t,
                 uint32_t, uint32_t, char, char [],
-                uint32_t);
+                uint32_t, uint32_t);
 
 extern int32_t sondeaprs_GetIp(char [], uint32_t, uint32_t *,
                 uint32_t *, uint32_t *);

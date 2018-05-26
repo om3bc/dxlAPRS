@@ -1034,7 +1034,7 @@ extern void sondeaprs_senddata(double lat, double long0,
                 uint32_t goodsats, char usercall[],
                 uint32_t usercall_len, uint32_t calperc,
                 uint32_t burstKill, char force, char typstr[],
-                uint32_t typstr_len)
+                uint32_t typstr_len, uint32_t channel)
 {
 	char s[201];
 
@@ -1043,8 +1043,8 @@ extern void sondeaprs_senddata(double lat, double long0,
 	speed *= 3.6;
 
 	//printf("type: %s\tframe: %u\thw: %s\ttime: %u\tlat: %f\tlon: %f\talt: %f\tspeed: %f\tdir: %f\tvspeed: %f\n", typstr, uptime, objname, sattime, lat, long0, alt, speed, dir, clb);
-	sprintf(s, "%s,%u,%s,%04d-%02d-%02d,%02d:%02d:%02d,%.5f,%.5f,%.2f,%.1f,%.1f,%.1f,%.3f,OK",
-		typstr, uptime, objname, 0, 0, 0, sattime / 3600, (sattime % 3600) / 60, (sattime % 3600) % 60, lat, long0, alt, speed, dir, clb, mhz);
+	sprintf(s, "%s,%u,%s,%04d-%02d-%02d,%02d:%02d:%02d,%.5f,%.5f,%.2f,%.1f,%.1f,%.1f,%.3f,%u,OK",
+		typstr, uptime, objname, 0, 0, 0, sattime / 3600, (sattime % 3600) / 60, (sattime % 3600) % 60, lat, long0, alt, speed, dir, clb, mhz, channel);
 	printf("%s\n", s);
 
 	sendudp(s, 201, strlen(s) + 1);
@@ -1061,7 +1061,7 @@ extern void sondeaprs_senddata2(double lat, double long0,
                 uint32_t goodsats, char usercall[],
                 uint32_t usercall_len, uint32_t calperc,
                 uint32_t burstKill, char force, char typstr[],
-                uint32_t typstr_len)
+                uint32_t typstr_len, uint32_t channel)
 {
    uint8_t e;
    pCONTEXT ct;
