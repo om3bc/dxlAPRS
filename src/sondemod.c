@@ -1300,10 +1300,8 @@ static void decodeframe(uint8_t m, uint32_t ip, uint32_t fromport)
       b[i] = chan[m].rxbuf[i];
    } /* end for */
    calok = 0;
-   //getcall(b, 256ul, usercall, 11ul);
    channel = b[0U];
-   usercall[0U]=0;
-   if (usercall[0U]==0) aprsstr_Assign(usercall, 11ul, mycall, 100ul);
+   aprsstr_Assign(usercall, 11ul, mycall, 100ul);
    if (sondeaprs_verb && fromport>0UL) {
       osi_WrStr("UDP:", 5ul);
       aprsstr_ipv4tostr(ip, bb, 256ul);
@@ -1657,17 +1655,9 @@ static void decodec34(const char rxb[], uint32_t rxb_len,
    if (nam[0U]==0) return;
    /* wait for id */
    ++i;
-   //j = 0UL;
-   //do {
-   //   cb[j] = rxb[i];
-   //   ++i;
-   //   ++j;
-   //} while (j<=4UL);
-   //getcall(cb, 10ul, usercall, 11ul);
    channel = rxb[i];
    i += 5;
-   usercall[0U]=0;
-   if (usercall[0U]==0) aprsstr_Assign(usercall, 11ul, mycall, 100ul);
+   aprsstr_Assign(usercall, 11ul, mycall, 100ul);
    j = 0UL;
    do {
       cb[j] = rxb[i];
@@ -2285,17 +2275,9 @@ static void decodedfm6(const char rxb[], uint32_t rxb_len,
    if (nam[0U]==0) return;
    /* wait for id */
    ++i;
-   //j = 0UL;
-   //do {
-   //   cb[j] = rxb[i]; /* call */
-   //   ++i;
-   //   ++j;
-   //} while (j<=4UL);
-   //getcall(cb, 10ul, usercall, 11ul);
    channel = rxb[i];
    i += 5;
-   usercall[0U]=0;
-   if (usercall[0U]==0) aprsstr_Assign(usercall, 11ul, mycall, 100ul);
+   aprsstr_Assign(usercall, 11ul, mycall, 100ul);
    rt = 0UL;
    for (j = 0UL; j<=3UL; j++) {
       rt = rt*256UL+(uint32_t)(uint8_t)rxb[i]; /* realtime */
@@ -2655,10 +2637,8 @@ static void decoders41(const char rxb[], uint32_t rxb_len,
    lat = 0.0;
    long0 = 0.0;
    ozonval = 0.0;
-   //getcall(rxb, rxb_len, usercall, 11ul);
    channel = rxb[0U];
-   usercall[0U]=0;
-   if (usercall[0U]==0) aprsstr_Assign(usercall, 11ul, mycall, 100ul);
+   aprsstr_Assign(usercall, 11ul, mycall, 100ul);
    if (sondeaprs_verb && fromport>0UL) {
       osi_WrStr("UDP:", 5ul);
       aprsstr_ipv4tostr(ip, s, 1001ul);
@@ -2983,10 +2963,8 @@ static void decodem10(const char rxb[], uint32_t rxb_len,
    pc = 0;
    lat = 0.0;
    lon = 0.0;
-   //getcall(rxb, rxb_len, usercall, 11ul);
    channel = rxb[0U];
-   usercall[0U]=0;
-   if (usercall[0U]==0) aprsstr_Assign(usercall, 11ul, mycall, 100ul);
+   aprsstr_Assign(usercall, 11ul, mycall, 100ul);
    if (sondeaprs_verb && fromport>0UL) {
       osi_WrStr("UDP:", 5ul);
       aprsstr_ipv4tostr(ip, s, 1001ul);
