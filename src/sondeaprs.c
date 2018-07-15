@@ -24,6 +24,7 @@
 #include "udp.h"
 #endif
 #include <stdio.h>
+#include <time.h>
 
 char sondeaprs_via[100];
 char sondeaprs_destcall[100];
@@ -1037,14 +1038,37 @@ extern void sondeaprs_senddata(double lat, double long0,
                 uint32_t typstr_len, uint32_t channel)
 {
 	char s[201];
+	int year, month, day, hour, minute, second, tmp;
+	struct tm *time;
 
+	time = NULL;
+	if (sattime > 604800)
+		time = gmtime((time_t*)&sattime);
+	if (time != NULL) {
+		year = 1900 + time->tm_year;
+		month = time->tm_mon + 1;
+		day = time->tm_mday;
+		hour = time->tm_hour;
+		minute = time->tm_min;
+		second = time->tm_sec;
+	}
+	else {
+		year = 0;
+		month = 0;
+		day = 0;
+		tmp = sattime % 86400;
+		hour = tmp / 3600;
+		tmp %= 3600;
+		minute = tmp / 60;
+		second = tmp % 60;
+	}
 	lat /= sondeaprs_RAD;
 	long0 /= sondeaprs_RAD;
 	speed *= 3.6;
 
 	//printf("type: %s\tframe: %u\thw: %s\ttime: %u\tlat: %f\tlon: %f\talt: %f\tspeed: %f\tdir: %f\tvspeed: %f\n", typstr, uptime, objname, sattime, lat, long0, alt, speed, dir, clb);
-	sprintf(s, "%s,%u,%s,%04d-%02d-%02d,%02d:%02d:%02d,%.5f,%.5f,%.2f,%.1f,%.1f,%.1f,%.3f,%u,OK",
-		typstr, uptime, objname, 0, 0, 0, sattime / 3600, (sattime % 3600) / 60, (sattime % 3600) % 60, lat, long0, alt, speed, dir, clb, mhz, channel);
+	sprintf(s, "%s,%u,%s,%04d-%02d-%02d,%02d:%02d:%02d,%.5f,%.5f,%.2f,%.1f,%.1f,%.1f,%.3f,%u,%u,OK",
+		typstr, uptime, objname, year, month, day, hour, minute, second, lat, long0, alt, speed, dir, clb, mhz, channel, sattime);
 	printf("%s\n", s);
 
 	sendudp(s, 201, strlen(s) + 1);

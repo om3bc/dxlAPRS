@@ -135,6 +135,7 @@ struct CONTEXTR9 {
    double ozon;
    uint32_t goodsats;
    uint32_t timems;
+   uint32_t gpstime;
    uint32_t framenum;
 };
 
@@ -1455,6 +1456,7 @@ static void decodeframe(uint8_t m, uint32_t ip, uint32_t fromport)
                      }
                      crdone = 0;
                   }
+                  anonym0->gpstime = gpstime;
                   if (gpstime>0UL && gpstime>=almage) {
                      almanachage = gpstime-almage;
                   }
@@ -1526,7 +1528,7 @@ static void decodeframe(uint8_t m, uint32_t ip, uint32_t fromport)
                 anonym1->hyg, anonym1->temp, anonym1->ozon,
                 anonym1->ozontemp, 0.0, 0.0, (double)mhz,
                 (double)anonym1->hrmsc, (double)anonym1->vrmsc,
-                (anonym1->timems/1000UL+86382UL)%86400UL, frameno, objname,
+                (anonym1->gpstime ? anonym1->gpstime : anonym1->timems/1000UL)-18UL, frameno, objname,
                 9ul, almanachage, anonym1->goodsats, usercall, 11ul,
                 calperc(anonym1->calibok), 0UL, sondeaprs_nofilter, "RS92",
                 5ul, channel);
@@ -2024,7 +2026,7 @@ static void decodec34(const char rxb[], uint32_t rxb_len,
             sondeaprs_senddata(exlat, exlon, anonym2->alt, anonym2->speed,
                 anonym2->dir, anonym2->clmb, 0.0, 0.0, stemp, 0.0, 0.0, 0.0,
                 0.0, 0.0, 0.0, 0.0,
-                ((systime-anonym2->tgpstime)+anonym2->gpstime)%86400UL, 0UL,
+                (systime-anonym2->tgpstime)+anonym2->gpstime, 0UL,
                 anonym2->name, 9ul, 0UL, 0UL, usercall, 11ul, 0UL, 0UL,
                 sondeaprs_nofilter, tstr, 51ul, channel);
             anonym2->lastsent = systime;
@@ -2296,8 +2298,8 @@ static void decodedfm6(const char rxb[], uint32_t rxb_len,
       }
       osi_WrStr(" ", 2ul);
    }
-   osi_WrStr(nam, 9ul);
-   osi_WrStr(" ", 2ul);
+   //osi_WrStr(nam, 9ul);
+   //osi_WrStr(" ", 2ul);
    pc = pcontextdfm6;
    pc0 = 0;
    for (;;) {
@@ -2373,7 +2375,7 @@ static void decodedfm6(const char rxb[], uint32_t rxb_len,
                sondeaprs_senddata(exlat, exlon, anonym->alt, anonym->speed,
                 anonym->dir, anonym->clmb, 0.0, 0.0,
                 (double)X2C_max_real, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                0.0, anonym->actrt%86400UL, rt, anonym->name, 9ul, 0UL, 0UL,
+                0.0, anonym->actrt, rt, anonym->name, 9ul, 0UL, 0UL,
                  usercall, 11ul, 0UL, 0UL, sondeaprs_nofilter, "DFM06", 6ul, channel);
                anonym->lastsent = systime;
             }
@@ -2630,6 +2632,8 @@ static void decoders41(const char rxb[], uint32_t rxb_len,
    double long0;
    double lat;
    uint32_t tmp;
+   uint32_t week;
+   uint32_t tow;
    calok = 0;
    nameok = 0;
    nam[0U] = 0;
@@ -2782,8 +2786,9 @@ static void decoders41(const char rxb[], uint32_t rxb_len,
          /*             WrStrLn("7A frame"); */
          /*             WrStrLn("7C frame"); */
          if (pc) {
-            pc->gpssecond = (uint32_t)((getint32(rxb, rxb_len,
-                p+2UL)/1000L+86382L)%86400L); /* gps TOW */
+            week = getint16(rxb, rxb_len, p); /* gps week */
+            tow = getint32(rxb, rxb_len, p+2UL); /* gps TOW */
+            pc->gpssecond = (tow/1000UL+week*604800UL+315964800UL)-18UL;
          }
       }
       else if (typ=='}') {
@@ -3018,7 +3023,7 @@ static void decodem10(const char rxb[], uint32_t rxb_len,
       week = m10card(rxb, rxb_len, 48L, 2L);
       time0 = tow/1000UL+week*604800UL+315964800UL;
       frameno = time0;
-      pc->gpssecond = time0+86382UL;
+      pc->gpssecond = time0-18UL;
       if (frameno>pc->framenum) {
          /* new frame number */
          pc->framesent = 0;
